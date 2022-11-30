@@ -5,30 +5,34 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class AnimalParameterizedTest {
     private final String animalKind;
-    private final String expected;
+    private final List<String> food;
 
 
-    public AnimalParameterizedTest(String animalKind, String expected) {
+
+    public AnimalParameterizedTest(String animalKind, List<String> food) {
         this.animalKind = animalKind;
-        this.expected = expected;
+        this.food = food;
     }
 
     @Parameterized.Parameters (name = "Тип животного: {0}, Что ест: {1}")
     public static Object[][] getCredentials() {
         return new Object[][] {
-                { "Травоядное", "Трава, Различные растения"},
-                { "Хищник", "Животные, Птицы, Рыба"},
+                { "Травоядное", List.of("Трава", "Различные растения")},
+                { "Хищник", List.of("Животные", "Птицы", "Рыба")},
         };
     }
 
     @Test
     public void testGetFood() throws Exception {
         Animal animal = new Animal();
-        assertEquals(expected, String.join(", ", animal.getFood(animalKind)));
+
+        assertEquals(food, animal.getFood(animalKind));
     }
 }
